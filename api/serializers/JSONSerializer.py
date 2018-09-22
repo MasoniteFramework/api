@@ -1,2 +1,6 @@
 class JSONSerializer:
-    pass
+    
+    def serialize(self):
+        """Serialize the model into JSON
+        """
+        pass

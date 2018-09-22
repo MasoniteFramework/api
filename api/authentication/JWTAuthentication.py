@@ -1,2 +1,7 @@
 class JWTAuthentication:
-    pass
+    
+    def authenticate(self):
+        """Authenticate using a JWT token
+        """
+        
+        pass

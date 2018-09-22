@@ -1,6 +1,8 @@
 class Resource:
     """Resource class that will use a similar structure as a Route class.
     """
+    
+    model = None
 
     def __init__(self):
         self.route_url = None

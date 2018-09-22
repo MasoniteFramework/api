@@ -5,8 +5,10 @@ name = "pypi"
 
 [packages]
 masonite = "==2.1.0b1.post1"
+"e1839a8" = {path = ".", editable = true}
 
 [dev-packages]
+"autopep8" = "*"
 
 [requires]
 python_version = "3.6"

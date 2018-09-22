@@ -1,2 +1,5 @@
 class XMLSerializer:
-    pass
+    def serialize(self):
+        """Serialize the model into XML
+        """
+        pass
