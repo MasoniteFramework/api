@@ -5,8 +5,6 @@ class Resource:
     def __init__(self):
         self.route_url = None
     
-    route_url = None
-    
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
