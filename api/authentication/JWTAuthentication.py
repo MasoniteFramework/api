@@ -1,0 +1,2 @@
+class JWTAuthentication:
+    pass

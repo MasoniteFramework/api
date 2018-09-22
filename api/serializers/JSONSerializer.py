@@ -1,0 +1,2 @@
+class JSONSerializer:
+    pass
