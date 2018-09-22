@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dfb67d77e9ce268ac9b76693f5dbaf86b85b9b7c434a4e0b02158d50dfdbd214"
+            "sha256": "687048e27bde882905319cca9ffe0c13552500ef00921996194e27171eb87a98"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,9 @@
         ]
     },
     "default": {
+        "803af1e": {
+            "file": "https://github.com/masoniteframework/core/archive/develop.zip"
+        },
         "argh": {
             "hashes": [
                 "sha256:a9b3aaa1904eeb78e32394cd46c6f37ac0fb4af6dc488daa58971bdc7d7fcaf3",
@@ -252,7 +255,6 @@
             "hashes": [
                 "sha256:d4cadece43eee34bca0586fb5f012fcb3594c9c0c740885180b5f54a7b4c1dbf"
             ],
-            "index": "pypi",
             "version": "==2.1.0b1.post1"
         },
         "masonite-entry": {

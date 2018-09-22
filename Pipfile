@@ -4,11 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-masonite = "==2.1.0b1.post1"
 "e1839a8" = {path = ".", editable = true}
+"803af1e" = {file = "https://github.com/masoniteframework/core/archive/develop.zip"}
 
 [dev-packages]
 "autopep8" = "*"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+install-develop = "pipenv install https://github.com/masoniteframework/core/archive/develop.zip"
