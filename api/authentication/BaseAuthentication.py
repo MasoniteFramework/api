@@ -27,6 +27,7 @@ class BaseAuthentication:
         except RateLimitReached:
             return {'error': 'rate limit reached'}
         except Exception as e:
+            raise e
             return {'error': str(e)}
 
     def fetch_token(self):

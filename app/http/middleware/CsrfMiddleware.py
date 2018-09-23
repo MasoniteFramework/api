@@ -7,5 +7,8 @@ class CsrfMiddleware(Middleware):
     """ Verify CSRF Token Middleware """
 
     exempt = [
-        '/api/user'
+        '/api/user',
+        '/token',
+        '/jwt',
+        '/jwt/refresh',
     ]

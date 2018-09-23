@@ -1,5 +1,5 @@
 from api.authentication import BaseAuthentication
-from api.exceptions import NoApiTokenFound, ExpiredToken
+from api.exceptions import NoApiTokenFound, ExpiredToken, InvalidToken
 import jwt
 from config.application import KEY
 from masonite.request import Request
@@ -10,8 +10,8 @@ class JWTAuthentication(BaseAuthentication):
     def authenticate(self, request: Request):
         """Authenticate using a JWT token
         """
-
         token = self.get_token()
+        print('token is', token)
         if pendulum.parse(token['expires']).is_past():
             raise ExpiredToken
 
@@ -22,4 +22,7 @@ class JWTAuthentication(BaseAuthentication):
             dict -- Should always return a dictionary
         """
 
-        return jwt.decode(self.fetch_token(), KEY, algorithms=['HS256'])
+        try:
+            return jwt.decode(self.fetch_token(), KEY, algorithms=['HS256'])
+        except jwt.DecodeError:
+            raise InvalidToken

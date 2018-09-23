@@ -9,6 +9,7 @@ def TokenRoutes(url='/token'):
 
 def JWTRoutes(url='/jwt'):
     return [
-        Get().route(url, TokenController.jwt)
+        Post().route(url, TokenController.jwt),
+        Post().route(url + '/refresh', TokenController.jwt_refresh),
     ]
 
