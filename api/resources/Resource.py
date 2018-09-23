@@ -3,14 +3,43 @@ class Resource:
     """
     
     model = None
+    methods = ['create', 'read', 'read_single', 'update', 'delete']
+    prefix = '/api'
+    method_routes = {
+        'create': '', # POST request
+        'read': '', # GET request
+        'read_single': '/@id',
+        'update': '/@id',
+        'delete': '/@id',
+    }
 
-    def __init__(self, url=None):
+    def __init__(self, url=None, method_type='GET'):
         self.route_url = url
+        self.method_type = method_type
+
+    def routes(self):
+        routes = []
+        for method in self.methods:
+            if method == 'create':
+                routes.append(self.__class__(self.route_url, 'POST'))
+            elif method == 'read':
+                routes.append(self.__class__(self.route_url, 'GET'))
+            elif method == 'read_single':
+                routes.append(self.__class__(self.route_url + '/@id', 'GET'))
+            elif method == 'update':
+                routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
+            elif method == 'delete':
+                routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
+        
+        return routes
     
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
-        pass
+        for key, value in self.method_routes.items():
+            if self.route_url + value == self.route_url:
+                print('getting method:', key)
+                return getattr(self, key)()
     
     def run_middleware(self, middleware_type):
         """Runs any middleware necessary for this resource
