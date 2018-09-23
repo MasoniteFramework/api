@@ -11,17 +11,17 @@ from config import middleware
 from masonite.auth import Csrf
 
 class ResourceTest(Resource):
-    model = User
+    model = User()
     method_type = 'GET'
 
-    def read_single(self):
+    def index(self):
         return 'read_single'
 
 class ResourceJsonTest(Resource):
     model = User
     method_type = 'GET'
 
-    def read_single(self):
+    def index(self):
         return {'id': 1}
 
 class Application:

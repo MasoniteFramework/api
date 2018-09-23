@@ -1,1 +1,1 @@
-from .TokenRoutes import TokenRoutes
+from .TokenRoutes import TokenRoutes, JWTRoutes
