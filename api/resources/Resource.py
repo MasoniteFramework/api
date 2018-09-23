@@ -1,4 +1,5 @@
 import json
+from masonite.request import Request
 
 class Resource:
     """Resource class that will use a similar structure as a Route class.
@@ -48,9 +49,9 @@ class Resource:
             if self.method_type == 'POST':
                 response = self.request.app().resolve(getattr(self, 'create'))
             elif self.method_type == 'GET' and '@' in self.route_url:
-                response = self.request.app().resolve(getattr(self, 'read_single'))
+                response = self.request.app().resolve(getattr(self, 'index'))
             elif self.method_type == 'GET':
-                response = self.request.app().resolve(getattr(self, 'read'))
+                response = self.request.app().resolve(getattr(self, 'show'))
             elif self.method_type == 'PUT':
                 response = self.request.app().resolve(getattr(self, 'update'))
             elif self.method_type == 'DELETE':
@@ -59,7 +60,7 @@ class Resource:
         # If the resource needs it's own serializer method
         if hasattr(self, 'serialize'):
             response = self.serialize(response)
-        
+
         return response
                 
     def run_middleware(self, middleware_type):
@@ -114,30 +115,35 @@ class Resource:
     def create(self): 
         """Logic to create data from a given model
         """
-        pass
+        try:
+            record = self.model.create(self.request.all())
+        except Exception as e:
+            return {'error': str(e)}
+        return record
         
-    def index(self): 
+    def index(self, request: Request): 
         """Logic to read data from a given model
         """
-        return self.model.all().serialize()
+        return self.model.find(request.param('id'))
 
     def show(self): 
         """Logic to read data from a given model
         """
-        return self.model.find(self.request.param('id')).to_dict()
+        return self.model.all()
 
     def update(self): 
         """Logic to update data from a given model
         """
         pass
 
-    def delete(self): 
+    def delete(self, request: Request): 
         """Logic to delete data from a given model
         """
-        record = self.model.find(self.request.param('id'))
+        record = self.model.find(request.param('id'))
         if record:
             record.delete()
-            return record.serialize()
-        
+            print('returning record')
+            return record
+
         return {'error': 'Model does not exist'}
         

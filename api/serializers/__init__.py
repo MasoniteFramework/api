@@ -1,2 +1,2 @@
 from .JSONSerializer import JSONSerializer
-from XMLSerializer import XMLSerializer
+from .XMLSerializer import XMLSerializer
