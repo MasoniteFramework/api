@@ -1,3 +1,5 @@
+import json
+
 class Resource:
     """Resource class that will use a similar structure as a Route class.
     """
@@ -38,7 +40,7 @@ class Resource:
         if hasattr(self, 'authenticate'):
             # Get a response from the authentication method if one exists
             response = self.request.app.resolve(self.authenticate())
-        
+
         # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
             if self.method_type == 'POST':
@@ -115,7 +117,12 @@ class Resource:
     def read(self): 
         """Logic to read data from a given model
         """
-        pass
+        return self.model.all().serialize()
+
+    def read_single(self): 
+        """Logic to read data from a given model
+        """
+        return self.model.find(self.request.param('id')).to_dict()
 
     def update(self): 
         """Logic to update data from a given model
@@ -125,4 +132,10 @@ class Resource:
     def delete(self): 
         """Logic to delete data from a given model
         """
-        pass
+        record = self.model.find(self.request.param('id'))
+        if record:
+            record.delete()
+            return record.serialize()
+        
+        return {'error': 'Model does not exist'}
+        
