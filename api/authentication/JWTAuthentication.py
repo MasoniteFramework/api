@@ -1,8 +1,13 @@
 from api.authentication import BaseAuthentication
+from api.exceptions import NoApiTokenFound
+import jwt
+from config.application import KEY
+from masonite.request import Request
+import pendulum
 
 class JWTAuthentication(BaseAuthentication):
 
-    def authenticate(self):
+    def authenticate(self, request: Request):
         """Authenticate using a JWT token
         """
 
@@ -13,6 +18,6 @@ class JWTAuthentication(BaseAuthentication):
         else:
             raise NoApiTokenFound
 
-        
-        Sign().unsign(token)
-
+        token = jwt.decode(token, KEY, algorithms=['HS256'])
+        print(pendulum.parse(token['expires']).is_past())
+        print(token)

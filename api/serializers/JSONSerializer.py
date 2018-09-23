@@ -7,6 +7,7 @@ class JSONSerializer:
     def serialize(self, response):
         """Serialize the model into JSON
         """
+        
         if isinstance(response, Collection):
             return response.serialize()
         elif isinstance(response, Model):
