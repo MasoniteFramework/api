@@ -1,25 +1,45 @@
 import jwt
-from masonite.auth import Sign
+from masonite.auth import Sign, Auth
 from masonite.request import Request
 from masonite.helpers.misc import random_string
+from masonite.helpers import password as bcrypt_password
 from config.application import KEY
 import pendulum
 
 
 class TokenController:
 
+    """Placeholder for the authentication model. This is set via the corresponding TokenRoutes function.
+    This will default to the auth.py authentication class.
+    """
+    __auth__ = None
+
+    def __init__(self):
+        if self.__auth__ == None:
+            from config import auth
+            self.__auth__ = auth.AUTH['model']
+
     def token(self):
         return {'token': Sign().sign(random_string(10))}
 
     def jwt(self, request: Request):
-        payload = {
-            'issued': str(pendulum.now()),
-            'expires': str(pendulum.now().add(minutes=1)),
-            'refresh': str(pendulum.now().add(days=1)),
-            'scopes': request.input('scopes'),
-        }
-        
-        return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
+        if not request.input('username') or not request.input('password'):
+            return {'error': 'missing username or password'}
+
+        if Auth(request).once().login(
+            request.input('username'),
+            request.input('password'),
+        ):
+            payload = {
+                'issued': str(pendulum.now()),
+                'expires': str(pendulum.now().add(minutes=1)),
+                'refresh': str(pendulum.now().add(days=1)),
+                'scopes': request.input('scopes'),
+            }
+            
+            return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
+
+        return {'error': 'invalid authentication credentials'}
 
     def jwt_refresh(self, request: Request):
         try:

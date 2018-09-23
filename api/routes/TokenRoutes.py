@@ -7,9 +7,11 @@ def TokenRoutes(url='/token'):
         Get().route(url, TokenController.token)
     ]
 
-def JWTRoutes(url='/jwt'):
+def JWTRoutes(url='/jwt', auth=None):
+    controller = TokenController
+    controller.__auth__ = auth
     return [
-        Post().route(url, TokenController.jwt),
-        Post().route(url + '/refresh', TokenController.jwt_refresh),
+        Post().route(url, controller.jwt),
+        Post().route(url + '/refresh', controller.jwt_refresh),
     ]
 
