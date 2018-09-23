@@ -2,3 +2,5 @@
 .vscode
 *.egg-info
 .DS_STORE
+.env
+.env.*
