@@ -15,7 +15,7 @@ matrix:
 install:
 - pip install pipenv
 - pipenv install masonite_cli --skip-lock
-- pipenv install --dev --skip-lock
+- pipenv install --dev
 - pipenv install '-e .'
 
 script: travis_retry coverage run -m pytest
