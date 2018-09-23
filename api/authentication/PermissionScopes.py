@@ -3,12 +3,14 @@ from api.exceptions import PermissionScopeDenied
 class PermissionScopes:
 
     scopes = ['*']
-    
-    def scopes(self, scopes: list):
-        raise PermissionScopeDenied
 
-    def run_scopes(self, scopes: list):
+    def scope(self):
+        token = self.get_token()
+        if 'scopes' not in token or not set(token['scopes'].split(',')).issubset(self.scopes) or self.scopes == ['*']:
+            raise PermissionScopeDenied
+
+    def run_scope(self, scopes: list):
         try:
-            return self.scopes(scopes)
+            return self.scope()
         except PermissionScopeDenied:
-            return {'error': 'permission scope denied'}
+            return {'error': 'Permission scope denied. Requires scopes: ' + ', '.join(self.scopes)}

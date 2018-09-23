@@ -11,13 +11,16 @@ class JWTAuthentication(BaseAuthentication):
         """Authenticate using a JWT token
         """
 
-        if request.input('token'):
-            token = request.input('token')
-        elif request.header('HTTP_AUTHORIZATION'):
-            token = request.header('HTTP_AUTHORIZATION').replace('Basic ', '')
-        else:
-            raise NoApiTokenFound
+        token = self.get_token()
 
-        token = jwt.decode(token, KEY, algorithms=['HS256'])
         print(pendulum.parse(token['expires']).is_past())
         print(token)
+
+    def get_token(self):
+        """Returns the decrypted string as a dictionary. This method needs to be overwritten on each authentication class.
+        
+        Returns:
+            dict -- Should always return a dictionary
+        """
+
+        return jwt.decode(self.fetch_token(), KEY, algorithms=['HS256'])
