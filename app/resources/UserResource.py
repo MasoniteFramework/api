@@ -10,7 +10,7 @@ class UserResource(Resource, JSONSerializer, JWTAuthentication, PermissionScopes
     
     model = User
     without = ['password', 'plan_id', 'remember_token']
-    scopes = ['user:read', 'user:create']
+    scopes = ['user:read']
 
     # def authenticate(self, request: Request):
     #     if request.input('token'):
