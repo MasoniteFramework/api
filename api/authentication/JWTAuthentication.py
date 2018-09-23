@@ -1,5 +1,5 @@
 from api.authentication import BaseAuthentication
-from api.exceptions import NoApiTokenFound
+from api.exceptions import NoApiTokenFound, ExpiredToken
 import jwt
 from config.application import KEY
 from masonite.request import Request
@@ -12,9 +12,8 @@ class JWTAuthentication(BaseAuthentication):
         """
 
         token = self.get_token()
-
-        print(pendulum.parse(token['expires']).is_past())
-        print(token)
+        if pendulum.parse(token['expires']).is_past():
+            raise ExpiredToken
 
     def get_token(self):
         """Returns the decrypted string as a dictionary. This method needs to be overwritten on each authentication class.
