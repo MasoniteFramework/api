@@ -20,17 +20,16 @@ class Resource:
 
     def routes(self):
         routes = []
-        for method in self.methods:
-            if method == 'create':
-                routes.append(self.__class__(self.route_url, 'POST'))
-            elif method == 'index':
-                routes.append(self.__class__(self.route_url, 'GET'))
-            elif method == 'show':
-                routes.append(self.__class__(self.route_url + '/@id', 'GET'))
-            elif method == 'update':
-                routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
-            elif method == 'delete':
-                routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
+        if 'create' in self.methods:
+            routes.append(self.__class__(self.route_url, 'POST'))
+        if 'index' in self.methods:
+            routes.append(self.__class__(self.route_url, 'GET'))
+        if 'show' in  self.methods:
+            routes.append(self.__class__(self.route_url + '/@id', 'GET'))
+        if 'update' in self.methods:
+            routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
+        if 'delete' in self.methods:
+            routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
         
         return routes
     
@@ -144,7 +143,6 @@ class Resource:
         record = self.model.find(request.param('id'))
         if record:
             record.delete()
-            print('returning record')
             return record
 
         return {'error': 'Model does not exist'}
