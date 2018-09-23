@@ -7,8 +7,8 @@ class PermissionScopes:
     def scopes(self, scopes: list):
         raise PermissionScopeDenied
 
-    def run_scopes(self):
+    def run_scopes(self, scopes: list):
         try:
-            return self.scopes()
+            return self.scopes(scopes)
         except PermissionScopeDenied:
             return {'error': 'permission scope denied'}
