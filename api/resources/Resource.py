@@ -131,10 +131,12 @@ class Resource:
         """
         return self.model.all()
 
-    def update(self): 
+    def update(self, request: Request): 
         """Logic to update data from a given model
         """
-        pass
+        record = self.model.find(request.param('id'))
+        record.update(request.all())
+        return record
 
     def delete(self, request: Request): 
         """Logic to delete data from a given model
