@@ -5,10 +5,13 @@ class Resource:
     model = None
     methods = ['create', 'read', 'read_single', 'update', 'delete']
     prefix = '/api'
+    required_domain = None
+    list_middleware = []
 
     def __init__(self, url=None, method_type='GET'):
         self.route_url = url
         self.method_type = method_type
+        self.named_route = None
 
     def routes(self):
         routes = []
@@ -29,7 +32,7 @@ class Resource:
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
-        
+
         response = None
 
         if hasattr(self, 'authenticate'):
