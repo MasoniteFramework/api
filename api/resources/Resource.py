@@ -36,10 +36,17 @@ class Resource:
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
-        for key, value in self.method_routes.items():
-            if self.route_url + value == self.route_url:
-                print('getting method:', key)
-                return getattr(self, key)()
+        if self.method_type == 'POST':
+            return self.request.app().resolve(getattr(self, 'create'))
+        elif self.method_type == 'GET' and '@' in self.route_url:
+            return self.request.app().resolve(getattr(self, 'read_single'))
+        elif self.method_type == 'GET':
+            return self.request.app().resolve(getattr(self, 'read'))
+        elif self.method_type == 'PUT':
+            return self.request.app().resolve(getattr(self, 'update'))
+        elif self.method_type == 'DELETE':
+            return self.request.app().resolve(getattr(self, 'delete'))
+
     
     def run_middleware(self, middleware_type):
         """Runs any middleware necessary for this resource

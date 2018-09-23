@@ -12,23 +12,7 @@ class ResourceTest(Resource):
     model = User
     method_type = 'GET'
 
-    def get_response(self):
-        if self.method_type == 'POST':
-            # print('getting method:', 'create')
-            return self.request.app().resolve(getattr(self, 'create'))
-        elif self.method_type == 'GET' and '@' in self.route_url:
-            # print('getting method:', 'read_single')
-            return self.request.app().resolve(getattr(self, 'read_single'))
-        elif self.method_type == 'GET':
-            # print('getting method:', 'read')
-            return self.request.app().resolve(getattr(self, 'read'))
-        elif self.method_type == 'PUT':
-            # print('getting method:', 'update')
-            return self.request.app().resolve(getattr(self, 'update'))
-        elif self.method_type == 'DELETE':
-            # print('getting method:', 'delete')
-            return self.request.app().resolve(getattr(self, 'delete'))
-        
+
     def create(self):
         return 'create'
 
