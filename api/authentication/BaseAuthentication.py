@@ -11,7 +11,7 @@ class BaseAuthentication:
         Returns:
             None|dict -- Should return None if a successful authentication or a dictionary with an error if not successfully authenticated
         """
-        
+
         try:
             return self.request.app().resolve(self.authenticate)
         except ApiNotAuthenticated:

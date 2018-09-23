@@ -9,7 +9,7 @@ class PermissionScopes:
         if 'scopes' not in token or not set(token['scopes'].split(',')).issubset(self.scopes) or self.scopes == ['*']:
             raise PermissionScopeDenied
 
-    def run_scope(self, scopes: list):
+    def run_scope(self):
         try:
             return self.scope()
         except PermissionScopeDenied:

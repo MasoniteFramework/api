@@ -51,9 +51,10 @@ class Resource:
 
         if hasattr(self, 'scope'):
             # Get a response from the authentication method if one exists
-            response = self.run_scope(['user:read', 'user'])
+            if not response:
+                response = self.run_scope()
 
-            # If the authenticate method did not return a response, continue on to one of the CRUD responses
+        # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
             if self.method_type == 'POST':
                 response = self.request.app().resolve(getattr(self, 'create'))
