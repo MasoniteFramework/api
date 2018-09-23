@@ -1,10 +1,16 @@
 import json
+
 from masonite.request import Request
+
+from api.exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
+                            NoApiTokenFound, PermissionScopeDenied,
+                            RateLimitReached)
+
 
 class Resource:
     """Resource class that will use a similar structure as a Route class.
     """
-    
+
     model = None
     methods = ['create', 'index', 'show', 'update', 'delete']
     prefix = '/api'
@@ -24,15 +30,15 @@ class Resource:
             routes.append(self.__class__(self.route_url, 'POST'))
         if 'index' in self.methods:
             routes.append(self.__class__(self.route_url, 'GET'))
-        if 'show' in  self.methods:
+        if 'show' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id', 'GET'))
         if 'update' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
         if 'delete' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
-        
+
         return routes
-    
+
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
@@ -41,9 +47,9 @@ class Resource:
 
         if hasattr(self, 'authenticate'):
             # Get a response from the authentication method if one exists
-            response = self.request.app.resolve(self.authenticate)
+            response = self.run_authentication()
 
-        # If the authenticate method did not return a response, continue on to one of the CRUD responses
+            # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
             if self.method_type == 'POST':
                 response = self.request.app().resolve(getattr(self, 'create'))
@@ -61,19 +67,19 @@ class Resource:
             response = self.serialize(response)
 
         return response
-                
+
     def run_middleware(self, middleware_type):
         """Runs any middleware necessary for this resource
-        
+
         Arguments:
             middleware_type {string} -- Either 'before' or 'after'
         """
-        pass
-    
+        pass   
+
     def load_request(self, request):
         self.request = request
         return self
-    
+
     def compile_route_to_regex(self, router):
         """Compiles this resource url to a regex pattern
         """
@@ -111,7 +117,7 @@ class Resource:
         regex += '$'
         return regex
 
-    def create(self): 
+    def create(self):
         """Logic to create data from a given model
         """
         try:
@@ -119,25 +125,25 @@ class Resource:
         except Exception as e:
             return {'error': str(e)}
         return record
-        
-    def index(self, request: Request): 
+
+    def index(self, request: Request):
         """Logic to read data from a given model
         """
         return self.model.find(request.param('id'))
 
-    def show(self): 
+    def show(self):
         """Logic to read data from a given model
         """
         return self.model.all()
 
-    def update(self, request: Request): 
+    def update(self, request: Request):
         """Logic to update data from a given model
         """
         record = self.model.find(request.param('id'))
         record.update(request.all())
         return record
 
-    def delete(self, request: Request): 
+    def delete(self, request: Request):
         """Logic to delete data from a given model
         """
         record = self.model.find(request.param('id'))
@@ -146,4 +152,3 @@ class Resource:
             return record
 
         return {'error': 'Model does not exist'}
-        
