@@ -5,13 +5,6 @@ class Resource:
     model = None
     methods = ['create', 'read', 'read_single', 'update', 'delete']
     prefix = '/api'
-    method_routes = {
-        'create': '', # POST request
-        'read': '', # GET request
-        'read_single': '/@id',
-        'update': '/@id',
-        'delete': '/@id',
-    }
 
     def __init__(self, url=None, method_type='GET'):
         self.route_url = url
@@ -36,7 +29,9 @@ class Resource:
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
- 
+        
+        response = None
+
         if hasattr(self, 'authenticate'):
             # Get a response from the authentication method if one exists
             response = self.request.app.resolve(self.authenticate())
@@ -57,6 +52,8 @@ class Resource:
         # If the resource needs it's own serializer method
         if hasattr(self, 'serialize'):
             response = self.serialize(response)
+        
+        return response
                 
     def run_middleware(self, middleware_type):
         """Runs any middleware necessary for this resource
