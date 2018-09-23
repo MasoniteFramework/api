@@ -9,11 +9,13 @@ class Resource:
     prefix = '/api'
     required_domain = None
     list_middleware = []
+    without = []
 
     def __init__(self, url=None, method_type='GET'):
         self.route_url = url
         self.method_type = method_type
         self.named_route = None
+        self.model.__hidden__ = self.without
 
     def routes(self):
         routes = []

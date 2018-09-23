@@ -19,6 +19,6 @@ class WelcomeController:
             masonite.view.View -- The Masonite view class.
         """
 
-        return User.find(1).to_dict()
+        # return User.find(1).to_dict()
 
         return view.render('welcome', {'app': request.app().make('Application')})
