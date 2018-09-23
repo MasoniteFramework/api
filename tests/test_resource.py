@@ -7,26 +7,22 @@ from masonite.routes import Route
 from masonite.request import Request
 from masonite.view import View
 from masonite.helpers.routes import flatten_routes
+from config import middleware
+from masonite.auth import Csrf
 
 class ResourceTest(Resource):
     model = User
     method_type = 'GET'
 
-
-    def create(self):
-        return 'create'
-
-    def read(self):
-        return 'read'
-
     def read_single(self):
         return 'read_single'
 
-    def update(self):
-        return 'update'
+class ResourceJsonTest(Resource):
+    model = User
+    method_type = 'GET'
 
-    def delete(self):
-        return 'delete'
+    def read_single(self):
+        return {'id': 1}
 
 class Application:
     DEBUG = True
@@ -43,8 +39,9 @@ class TestResource:
         self.app.bind('Request', Request(
             self.app.make('Environ')).load_app(self.app))
         self.app.bind('Headers', [])
+        self.app.bind('Csrf', Csrf(self.app.make('Request')))
         self.app.bind('StatusCode', '404 Not Found')
-        self.app.bind('HttpMiddleware', [])
+        self.app.bind('HttpMiddleware', middleware.HTTP_MIDDLEWARE)
         view = View(self.app)
         self.app.bind('ViewClass', view)
         self.app.bind('View', view.render)
@@ -79,6 +76,18 @@ class TestResource:
         )
 
         assert self.app.make('Response') == 'read_single'
+
+    def test_resource_middleware_returns_json_from_dictionary(self):
+        self.app.make('Route').url = '/api/1'
+        self.app.make('Request').path = '/api/1'
+        self.app.bind('WebRoutes', ResourceJsonTest('/api').routes())
+
+        self.provider.boot(
+            self.app.make('Route'),
+            self.app.make('Request')
+        )
+
+        assert self.app.make('Response') == '{"id": 1}'
 
     def test_output_routes(self):
         for route in ResourceTest('/api').routes():
