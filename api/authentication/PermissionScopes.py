@@ -9,6 +9,7 @@ class PermissionScopes:
         if self.scopes == ['*']:
             return
 
+        # If the current required scopes are not a subset of the user supplied scopes
         if 'scopes' not in token or not set(self.scopes).issubset(token['scopes'].split(',')):
             raise PermissionScopeDenied
 
