@@ -15,6 +15,7 @@ matrix:
 install:
 - pip install pipenv
 - pipenv install masonite_cli --skip-lock
+- pipenv run install-develop
 - pipenv install --dev
 - pipenv install '-e .'
 
