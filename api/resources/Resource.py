@@ -5,7 +5,7 @@ class Resource:
     """
     
     model = None
-    methods = ['create', 'read', 'read_single', 'update', 'delete']
+    methods = ['create', 'index', 'show', 'update', 'delete']
     prefix = '/api'
     required_domain = None
     list_middleware = []
@@ -22,9 +22,9 @@ class Resource:
         for method in self.methods:
             if method == 'create':
                 routes.append(self.__class__(self.route_url, 'POST'))
-            elif method == 'read':
+            elif method == 'index':
                 routes.append(self.__class__(self.route_url, 'GET'))
-            elif method == 'read_single':
+            elif method == 'show':
                 routes.append(self.__class__(self.route_url + '/@id', 'GET'))
             elif method == 'update':
                 routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
@@ -116,12 +116,12 @@ class Resource:
         """
         pass
         
-    def read(self): 
+    def index(self): 
         """Logic to read data from a given model
         """
         return self.model.all().serialize()
 
-    def read_single(self): 
+    def show(self): 
         """Logic to read data from a given model
         """
         return self.model.find(self.request.param('id')).to_dict()
