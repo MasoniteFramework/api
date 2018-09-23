@@ -1,6 +1,8 @@
+import json
+
 class JSONSerializer:
     
-    def serialize(self):
+    def serialize(self, response):
         """Serialize the model into JSON
         """
-        pass
+        return json.loads(response)

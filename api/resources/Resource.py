@@ -36,18 +36,28 @@ class Resource:
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
-        if self.method_type == 'POST':
-            return self.request.app().resolve(getattr(self, 'create'))
-        elif self.method_type == 'GET' and '@' in self.route_url:
-            return self.request.app().resolve(getattr(self, 'read_single'))
-        elif self.method_type == 'GET':
-            return self.request.app().resolve(getattr(self, 'read'))
-        elif self.method_type == 'PUT':
-            return self.request.app().resolve(getattr(self, 'update'))
-        elif self.method_type == 'DELETE':
-            return self.request.app().resolve(getattr(self, 'delete'))
+ 
+        if hasattr(self, 'authenticate'):
+            # Get a response from the authentication method if one exists
+            response = self.request.app.resolve(self.authenticate())
+        
+        # If the authenticate method did not return a response, continue on to one of the CRUD responses
+        if not response:
+            if self.method_type == 'POST':
+                response = self.request.app().resolve(getattr(self, 'create'))
+            elif self.method_type == 'GET' and '@' in self.route_url:
+                response = self.request.app().resolve(getattr(self, 'read_single'))
+            elif self.method_type == 'GET':
+                response = self.request.app().resolve(getattr(self, 'read'))
+            elif self.method_type == 'PUT':
+                response = self.request.app().resolve(getattr(self, 'update'))
+            elif self.method_type == 'DELETE':
+                response = self.request.app().resolve(getattr(self, 'delete'))
 
-    
+        # If the resource needs it's own serializer method
+        if hasattr(self, 'serialize'):
+            response = self.serialize(response)
+                
     def run_middleware(self, middleware_type):
         """Runs any middleware necessary for this resource
         
