@@ -13,6 +13,7 @@ pyjwt = "*"
 "autopep8" = "*"
 "pytest" = "*"
 pymysql = "*"
+coveralls = "*"
 
 [scripts]
 install-develop = "pipenv install https://github.com/masoniteframework/core/archive/develop.zip"
