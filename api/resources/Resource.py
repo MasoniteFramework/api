@@ -41,7 +41,7 @@ class Resource:
 
         if hasattr(self, 'authenticate'):
             # Get a response from the authentication method if one exists
-            response = self.request.app.resolve(self.authenticate())
+            response = self.request.app.resolve(self.authenticate)
 
         # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
