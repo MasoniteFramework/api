@@ -9,6 +9,7 @@ from masonite.view import View
 from masonite.helpers.routes import flatten_routes
 from config import middleware
 from masonite.auth import Csrf
+from masonite.response import Response
 
 class ResourceTest(Resource):
     model = User()
@@ -38,6 +39,7 @@ class TestResource:
         self.app.bind('Route', Route(self.app.make('Environ')))
         self.app.bind('Request', Request(
             self.app.make('Environ')).load_app(self.app))
+        self.app.simple(Response(self.app))
         self.app.bind('Headers', [])
         self.app.bind('Csrf', Csrf(self.app.make('Request')))
         self.app.bind('StatusCode', '404 Not Found')
@@ -55,7 +57,8 @@ class TestResource:
 
         self.provider.boot(
             self.app.make('Route'),
-            self.app.make('Request')
+            self.app.make('Request'),
+            self.app.make(Response),
         )
 
         assert self.app.make('Response') == 'read_single'
@@ -72,7 +75,8 @@ class TestResource:
 
         self.provider.boot(
             self.app.make('Route'),
-            self.app.make('Request')
+            self.app.make('Request'),
+            self.app.make(Response),
         )
 
         assert self.app.make('Response') == 'read_single'
@@ -84,7 +88,8 @@ class TestResource:
 
         self.provider.boot(
             self.app.make('Route'),
-            self.app.make('Request')
+            self.app.make('Request'),
+            self.app.make(Response),
         )
 
         assert self.app.make('Response') == '{"id": 1}'
