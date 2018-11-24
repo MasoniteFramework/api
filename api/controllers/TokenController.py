@@ -1,10 +1,12 @@
 import jwt
-from masonite.auth import Sign, Auth
-from masonite.request import Request
-from masonite.helpers.misc import random_string
-from masonite.helpers import password as bcrypt_password
-from config.application import KEY
 import pendulum
+from masonite.auth import Auth, Sign
+from masonite.helpers import password as bcrypt_password
+from masonite.helpers.misc import random_string
+from masonite.request import Request
+
+from api.exceptions import NoApiTokenFound
+from config.application import KEY
 
 
 class TokenController:
@@ -12,6 +14,7 @@ class TokenController:
     """Placeholder for the authentication model. This is set via the corresponding TokenRoutes function.
     This will default to the auth.py authentication class.
     """
+    
     __auth__ = None
 
     def __init__(self):
