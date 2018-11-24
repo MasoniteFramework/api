@@ -1,13 +1,15 @@
 """ Web Routes """
 from masonite.routes import Get, Post
+
+from api.routes import JWTRoutes, TokenRoutes
 from app.resources.UserResource import UserResource
-from api.routes import TokenRoutes, JWTRoutes
 
 ROUTES = [
     Get().route('/', 'WelcomeController@show').name('welcome'),
     UserResource('/api/user').routes(),
+
     TokenRoutes('/token'),
-    JWTRoutes('/jwt'),
+    JWTRoutes('/authorize'),
 ]
 
 ROUTES = ROUTES + [

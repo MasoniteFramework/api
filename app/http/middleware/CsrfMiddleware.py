@@ -11,4 +11,5 @@ class CsrfMiddleware(Middleware):
         '/token',
         '/jwt',
         '/jwt/refresh',
+        '/authorize'
     ]

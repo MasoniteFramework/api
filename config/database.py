@@ -32,15 +32,11 @@ DATABASES = {
     'default': os.environ.get('DB_DRIVER'),
     'sqlite': {
         'driver': 'sqlite',
-        'database': os.environ.get('DB_DATABASE'),
-        'prefix': ''
+        'database': os.environ.get('DB_DATABASE')
     },
     os.environ.get('DB_DRIVER'): {
         'driver': os.environ.get('DB_DRIVER'),
-        'host': os.environ.get('DB_HOST'),
         'database': os.environ.get('DB_DATABASE'),
-        'user': os.environ.get('DB_USERNAME'),
-        'password': os.environ.get('DB_PASSWORD'),
         'prefix': ''
     }
 }

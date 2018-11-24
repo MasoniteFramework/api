@@ -1,5 +1,6 @@
 from api.exceptions import PermissionScopeDenied
 
+
 class PermissionScopes:
 
     scopes = ['*']

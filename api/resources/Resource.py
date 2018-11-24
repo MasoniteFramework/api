@@ -54,22 +54,26 @@ class Resource:
             if not response:
                 response = self.run_scope()
 
+
         # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
-            if self.method_type == 'POST':
+            if 'POST' in self.method_type:
                 response = self.request.app().resolve(getattr(self, 'create'))
-            elif self.method_type == 'GET' and '@' in self.route_url:
-                response = self.request.app().resolve(getattr(self, 'index'))
-            elif self.method_type == 'GET':
+            elif 'GET' in self.method_type and '@' in self.route_url:
                 response = self.request.app().resolve(getattr(self, 'show'))
-            elif self.method_type == 'PUT':
+            elif 'GET' in self.method_type:
+                response = self.request.app().resolve(getattr(self, 'index'))
+            elif 'PUT' in self.method_type or 'PATCH' in self.method_type:
                 response = self.request.app().resolve(getattr(self, 'update'))
-            elif self.method_type == 'DELETE':
+            elif 'DELETE' in self.method_type:
                 response = self.request.app().resolve(getattr(self, 'delete'))
 
         # If the resource needs it's own serializer method
         if hasattr(self, 'serialize'):
             response = self.serialize(response)
+        # If the resource needs it's own serializer method
+        if hasattr(self, 'filter'):
+            response = self.filter(response)
 
         return response
 
@@ -131,15 +135,15 @@ class Resource:
             return {'error': str(e)}
         return record
 
-    def index(self, request: Request):
-        """Logic to read data from a given model
-        """
-        return self.model.find(request.param('id'))
-
-    def show(self):
-        """Logic to read data from a given model
+    def index(self):
+        """Logic to read data from several models
         """
         return self.model.all()
+
+    def show(self, request: Request):
+        """Logic to read data from 1 model
+        """
+        return self.model.find(request.param('id'))
 
     def update(self, request: Request):
         """Logic to update data from a given model
@@ -156,4 +160,4 @@ class Resource:
             record.delete()
             return record
 
-        return {'error': 'Model does not exist'}
+        return {'error': 'Record does not exist'}

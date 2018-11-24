@@ -11,7 +11,6 @@ class JWTAuthentication(BaseAuthentication):
         """Authenticate using a JWT token
         """
         token = self.get_token()
-        print('token is', token)
         if pendulum.parse(token['expires']).is_past():
             raise ExpiredToken
 
