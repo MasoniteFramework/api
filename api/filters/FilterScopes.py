@@ -1,4 +1,4 @@
-class ScopeFilter:
+class FilterScopes:
 
     filter_scopes = {
         'user:read': ['name', 'email'],
