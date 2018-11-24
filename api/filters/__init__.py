@@ -1,1 +1,1 @@
-from .ScopeFilter import ScopeFilter
+from .FilterScopes import FilterScopes

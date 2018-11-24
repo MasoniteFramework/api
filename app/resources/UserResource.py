@@ -5,9 +5,9 @@ from api.authentication import (JWTAuthentication, PermissionScopes,
 from api.resources import Resource
 from api.serializers import JSONSerializer
 from app.User import User
-from api.filters import ScopeFilter
+from api.filters import FilterScopes
 
-class UserResource(Resource, JSONSerializer, JWTAuthentication, PermissionScopes, ScopeFilter):
+class UserResource(Resource, JSONSerializer, JWTAuthentication, PermissionScopes, FilterScopes):
     model = User   
     # methods = ['create', 'index', 'show']
     scopes = ['user:read']

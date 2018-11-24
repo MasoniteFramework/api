@@ -14,7 +14,7 @@ class TokenController:
     """Placeholder for the authentication model. This is set via the corresponding TokenRoutes function.
     This will default to the auth.py authentication class.
     """
-    
+
     __auth__ = None
 
     def __init__(self):
@@ -49,7 +49,7 @@ class TokenController:
             token = jwt.decode(self.fetch_token(request), KEY, algorithms=['HS256'])
         except jwt.DecodeError:
             return {'error': 'invalid JWT token'}
-        
+
         if not pendulum.parse(token['refresh']).is_past():
             payload = {
                 'issued': str(pendulum.now()),
