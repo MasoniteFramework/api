@@ -1,13 +1,14 @@
 import json
 
 from masonite.request import Request
+from masonite.routes import BaseHttpRoute
 
 from api.exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
                             NoApiTokenFound, PermissionScopeDenied,
                             RateLimitReached)
 
 
-class Resource:
+class Resource(BaseHttpRoute):
     """Resource class that will use a similar structure as a Route class.
     """
 
@@ -36,7 +37,7 @@ class Resource:
             routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
         if 'delete' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
-
+        
         return routes
 
     def get_response(self):
