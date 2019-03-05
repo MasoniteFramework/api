@@ -1,2 +1,4 @@
 masonite>=2.1,<2.2
 pyjwt
+coveralls
+flake8

@@ -16,8 +16,6 @@ install:
 - pip install masonite_cli
 - pip install -e .
 - pip install -r requirements.txt
-- craft migrate
-- craft seed:run
 
 script: travis_retry coverage run -m pytest
 
