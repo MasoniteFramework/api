@@ -33,22 +33,11 @@ class Application:
 class TestResource:
     
     def setup_method(self):
-        self.app = App()
-        self.app.bind('Container', self.app)
-        self.app.bind('Environ', generate_wsgi())
-        self.app.bind('Application', Application)
-        self.app.bind('WebRoutes', [])
-        self.app.bind('Route', Route(self.app.make('Environ')))
-        self.app.bind('Request', Request(
-            self.app.make('Environ')).load_app(self.app))
-        self.app.simple(Response(self.app))
-        self.app.bind('Headers', [])
-        self.app.bind('Csrf', Csrf(self.app.make('Request')))
-        self.app.bind('StatusCode', '404 Not Found')
-        self.app.bind('HttpMiddleware', middleware.HTTP_MIDDLEWARE)
-        view = View(self.app)
-        self.app.bind('ViewClass', view)
-        self.app.bind('View', view.render)
+        from wsgi import container
+        self.app = container
+        self.app.make('Request').environ = generate_wsgi()
+        self.app.make('Request').load_app(self.app)
+        self.app.bind('StatusCode', None)
         self.provider = RouteProvider()
         self.provider.app = self.app
         
@@ -84,12 +73,6 @@ class TestResource:
         )
 
         assert self.app.make('Response') == '{"id": 1}'
-
-    def test_output_routes(self):
-        for route in ResourceTest('/api').routes():
-            pass
-            # print(route.route_url, route.method_type)
-
 
     def test_route_groups_middleware(self):
         group = RouteGroup([

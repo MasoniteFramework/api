@@ -40,7 +40,7 @@ DEBUG = os.getenv('APP_DEBUG', False)
 |
 """
 
-KEY = os.getenv('KEY', None)
+KEY = os.getenv('KEY', 'wzWfd04IxEjyoyNHN9M-pizOO4TYOnWUoxBqjO61FCA=')
 
 """
 |--------------------------------------------------------------------------

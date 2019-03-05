@@ -13,5 +13,4 @@ class UserResource(Resource, JSONSerializer):
     scopes = ['user:read']
 
     def index(self, request: Request):
-        request.status(404)
         return {'id': 1}
