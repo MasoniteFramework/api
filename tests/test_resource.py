@@ -15,14 +15,16 @@ class ResourceTest(Resource):
     model = User
     method_type = 'GET'
 
-    def show(self):
+    def show(self, request: Request):
+        request.status(203)
         return 'read_single'
 
 class ResourceJsonTest(Resource):
     model = User
     method_type = 'GET'
 
-    def index(self):
+    def index(self, request: Request):
+        print(request)
         return {'id': 1}
 
 class Application:
@@ -52,15 +54,17 @@ class TestResource:
         
     def test_resource_can_return_response_acting_as_route(self):
         self.app.make('Route').url = '/api/1'
-        self.app.make('Request').path = '/api/1'
+        request = self.app.make('Request')
+        request.path = '/api/1'
         self.app.bind('WebRoutes', ResourceTest('/api').routes())
 
         self.provider.boot(
             self.app.make('Route'),
             self.app.make('Request'),
             self.app.make(Response),
-        )
+        )  
 
+        assert request.is_status(203)
         assert self.app.make('Response') == 'read_single'
 
     def test_resource_returns_correct_routes(self):
