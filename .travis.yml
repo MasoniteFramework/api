@@ -13,7 +13,7 @@ matrix:
       script: travis_retry coverage run -m pytest && coveralls
 
 install:
-- pip install masonite_cli
+- pip install masonite-cli
 - pip install -e .
 - pip install -r requirements.txt
 
