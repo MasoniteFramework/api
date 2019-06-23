@@ -1,4 +1,4 @@
-masonite>=2.1,<2.2
+masonite>=2.2,<2.3
 pyjwt
 coveralls
 flake8
