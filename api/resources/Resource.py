@@ -24,6 +24,9 @@ class Resource(BaseHttpRoute):
         self.method_type = method_type
         self.named_route = None
         self.model.__hidden__ = self.without
+        if url and method_type:
+            self._compiled_url = self.compile_route_to_regex()
+        
 
     def routes(self):
         routes = []
@@ -90,7 +93,7 @@ class Resource(BaseHttpRoute):
         self.request = request
         return self
 
-    def compile_route_to_regex(self, router):
+    # def compile_route_to_regex(self, router):
         """Compiles this resource url to a regex pattern
         """
 

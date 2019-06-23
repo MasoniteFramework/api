@@ -10,6 +10,7 @@ from masonite.helpers.routes import flatten_routes
 from config import middleware
 from masonite.auth import Csrf
 from masonite.response import Response
+from masonite.testing import TestCase
 
 class ResourceTest(Resource):
     model = User
@@ -24,15 +25,14 @@ class ResourceJsonTest(Resource):
     method_type = 'GET'
 
     def index(self, request: Request):
-        print(request)
         return {'id': 1}
 
 class Application:
     DEBUG = True
 
-class TestResource:
+class TestResource(TestCase):
     
-    def setup_method(self):
+    def setUp(self):
         from wsgi import container
         self.app = container
         self.app.make('Request').environ = generate_wsgi()

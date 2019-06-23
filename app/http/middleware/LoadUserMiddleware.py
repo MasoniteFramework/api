@@ -8,7 +8,7 @@ class LoadUserMiddleware:
     """Middleware class which loads the current user into the request
     """
 
-    def __init__(self, request: Request):
+    def __init__(self, request: Request, auth: Auth):
         """Inject Any Dependencies From The Service Container
 
         Arguments:
@@ -16,6 +16,7 @@ class LoadUserMiddleware:
         """
 
         self.request = request
+        self.auth = auth
 
     def before(self):
         """Run This Middleware Before The Route Executes
@@ -37,4 +38,4 @@ class LoadUserMiddleware:
             request {masonite.request.Request} -- The Masonite request object.
         """
 
-        self.request.set_user(Auth(self.request).user())
+        self.request.set_user(self.auth.user())
