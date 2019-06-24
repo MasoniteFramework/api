@@ -26,7 +26,6 @@ class Resource(BaseHttpRoute):
         self.model.__hidden__ = self.without
         if url and method_type:
             self._compiled_url = self.compile_route_to_regex()
-        
 
     def routes(self):
         routes = []
@@ -40,7 +39,7 @@ class Resource(BaseHttpRoute):
             routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
         if 'delete' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
-        
+
         return routes
 
     def get_response(self):
@@ -57,7 +56,6 @@ class Resource(BaseHttpRoute):
             # Get a response from the authentication method if one exists
             if not response:
                 response = self.run_scope()
-
 
         # If the authenticate method did not return a response, continue on to one of the CRUD responses
         if not response:
@@ -87,48 +85,11 @@ class Resource(BaseHttpRoute):
         Arguments:
             middleware_type {string} -- Either 'before' or 'after'
         """
-        pass   
+        pass
 
     def load_request(self, request):
         self.request = request
         return self
-
-    # def compile_route_to_regex(self, router):
-        """Compiles this resource url to a regex pattern
-        """
-
-        # Split the route
-        split_given_route = self.route_url.split('/')
-        # compile the provided url into regex
-        url_list = []
-        regex = '^'
-        for regex_route in split_given_route:
-            if '@' in regex_route:
-                if ':' in regex_route:
-                    try:
-                        regex += router.route_compilers[regex_route.split(':')[
-                            1]]
-                    except KeyError:
-                        raise InvalidRouteCompileException(
-                            'Route compiler "{}" is not an available route compiler. '
-                            'Verify you spelled it correctly or that you have added it using the compile() method.'.format(
-                                regex_route.split(':')[1])
-                        )
-                else:
-                    regex += router.route_compilers['default']
-
-                regex += r'\/'
-
-                # append the variable name passed @(variable):int to a list
-                url_list.append(
-                    regex_route.replace('@', '').split(':')[0]
-                )
-            else:
-                regex += regex_route + r'\/'
-
-        router.url_list = url_list
-        regex += '$'
-        return regex
 
     def create(self):
         """Logic to create data from a given model

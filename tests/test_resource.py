@@ -14,6 +14,7 @@ class ResourceTest(Resource):
         request.status(203)
         return 'read_single'
 
+
 class ResourceJsonTest(Resource):
     model = User
     method_type = 'GET'
@@ -21,22 +22,20 @@ class ResourceJsonTest(Resource):
     def index(self, request: Request):
         return {'id': 1}
 
-class Application:
-    DEBUG = True
 
 class TestResource(TestCase):
-    
+
     def setUp(self):
         super().setUp()
         self.routes(ResourceTest('/api').routes())
-    
+
     def setUpFactories(self):
         User.create({
             'name': 'Joe',
             'email': 'Joe@email.com',
             'password': password('secret')
         })
-        
+
     def test_resource_can_return_response_acting_as_route(self):
         self.assertTrue(self.json('GET', '/api/1').hasJson('name', 'Joe'))
 
