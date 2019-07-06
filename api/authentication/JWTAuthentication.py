@@ -23,5 +23,5 @@ class JWTAuthentication(BaseAuthentication):
 
         try:
             return jwt.decode(self.fetch_token(), KEY, algorithms=['HS256'])
-        except jwt.DecodeError:
+        except jwt.exceptions.DecodeError:
             raise InvalidToken

@@ -47,7 +47,7 @@ class TokenController:
     def jwt_refresh(self, request: Request):
         try:
             token = jwt.decode(self.fetch_token(request), KEY, algorithms=['HS256'])
-        except jwt.DecodeError:
+        except jwt.exceptions.DecodeError:
             return {'error': 'invalid JWT token'}
 
         if not pendulum.parse(token['refresh']).is_past():
