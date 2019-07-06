@@ -25,11 +25,11 @@ class TokenController:
     def token(self):
         return {'token': Sign().sign(random_string(10))}
 
-    def jwt(self, request: Request):
+    def jwt(self, request: Request, auth: Auth):
         if not request.input('username') or not request.input('password'):
             return {'error': 'missing username or password'}
 
-        if Auth(request).once().login(
+        if auth.once().login(
             request.input('username'),
             request.input('password'),
         ):

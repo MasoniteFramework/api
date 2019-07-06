@@ -13,7 +13,8 @@ import pendulum
 import jwt
 from config.application import KEY
 from app.User import User
-
+from masonite.testing import TestCase
+from masonite.helpers import password
 
 class MockJWTAuthentication(JWTAuthentication):
 
@@ -45,30 +46,22 @@ class UserResourceTest(Resource, JSONSerializer, MockJWTAuthentication, Permissi
     def index(self):
         return self.model.all()
 
-class TestFilterScopes:
+class TestFilterScopes(TestCase):
 
-    def setup_method(self):
-        from wsgi import container
-        self.app = container
-        self.app.make('Request').environ = generate_wsgi()
-        self.app.make('Request').load_app(self.app)
-        self.app.bind('StatusCode', None)
-        self.provider = RouteProvider()
-        self.provider.app = self.app
+    transactions = True
+
+    def setUp(self):
+        super().setUp()
+        self.routes(UserResourceTest('/api').routes())
+    
+    def setUpFactories(self):
+        User.create({
+            'name': 'Joe',
+            'email': 'joe@email.com',
+            'password': password('secret')
+        })
 
     def test_filter_scopes_filters_dictionary(self):
-        self.app.make('Route').url = '/api'
-        request = self.app.make('Request')
-        request.request_variables = {}
-        request.path = '/api/1'
-        self.app.bind('WebRoutes', UserResourceTest('/api').routes())
-
-        self.provider.boot(
-            self.app.make('Route'),
-            self.app.make('Request'),
-            self.app.make(Response),
-        )
-
-        assert '"name":' in self.app.make('Response')
-        assert '"email":' in self.app.make('Response')
-        assert '"id":' not in self.app.make('Response')
+        self.assertTrue(self.json('GET', '/api/1').contains('name'))
+        self.assertTrue(self.json('GET', '/api/1').contains('email'))
+        self.assertFalse(self.json('GET', '/api/1').contains('id'))
