@@ -51,6 +51,7 @@ class Resource(BaseHttpRoute):
         if hasattr(self, 'authenticate'):
             # Get a response from the authentication method if one exists
             response = self.run_authentication()
+            self.load_user()
 
         if hasattr(self, 'scope'):
             # Get a response from the authentication method if one exists
@@ -108,6 +109,7 @@ class Resource(BaseHttpRoute):
     def show(self, request: Request):
         """Logic to read data from 1 model
         """
+        print(request.param('id'))
         return self.model.find(request.param('id'))
 
     def update(self, request: Request):

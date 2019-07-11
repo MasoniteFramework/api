@@ -29,16 +29,18 @@ class TokenController:
         if not request.input('username') or not request.input('password'):
             return {'error': 'missing username or password'}
 
-        if auth.once().login(
+        authenticated = auth.once().login(
             request.input('username'),
             request.input('password'),
-        ):
+        )
+        if authenticated:
             payload = {
                 'issued': str(pendulum.now()),
                 'expires': str(pendulum.now().add(minutes=1)),
                 'refresh': str(pendulum.now().add(days=1)),
                 'scopes': request.input('scopes'),
-            }
+                'user': authenticated.serialize(),
+            }   
             
             return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
 

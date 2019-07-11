@@ -3,6 +3,7 @@ from masonite.auth import Sign
 from api.exceptions import NoApiTokenFound, ApiNotAuthenticated
 from masonite.request import Request
 
+
 class TokenAuthentication(BaseAuthentication):
 
     def authenticate(self, request: Request):
@@ -14,7 +15,7 @@ class TokenAuthentication(BaseAuthentication):
 
         try:
             self.get_token()
-        except Exception as e:
+        except Exception:
             raise ApiNotAuthenticated
 
     def get_token(self):

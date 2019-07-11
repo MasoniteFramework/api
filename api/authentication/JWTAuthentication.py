@@ -25,3 +25,13 @@ class JWTAuthentication(BaseAuthentication):
             return jwt.decode(self.fetch_token(), KEY, algorithms=['HS256'])
         except jwt.exceptions.DecodeError:
             raise InvalidToken
+
+    def load_user(self):
+        """Returns the decrypted string as a dictionary. This method needs to be overwritten on each authentication class.
+        
+        Returns:
+            dict -- Should always return a dictionary
+        """
+        decrypted = self.get_token()
+        if 'user' in decrypted:
+            self.request.set_user(self.model().fill(**decrypted['user']))
