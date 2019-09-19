@@ -7,6 +7,7 @@ setup(
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
     version='2.2.2',
+    package_dir={'': 'src'},
 
     description='Masonite API Package',
     long_description='Masonite API Package',

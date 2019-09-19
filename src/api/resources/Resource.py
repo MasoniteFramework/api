@@ -3,7 +3,7 @@ import json
 from masonite.request import Request
 from masonite.routes import BaseHttpRoute
 
-from api.exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
+from ..exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
                             NoApiTokenFound, PermissionScopeDenied,
                             RateLimitReached)
 

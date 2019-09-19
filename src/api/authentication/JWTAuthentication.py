@@ -1,5 +1,5 @@
-from api.authentication import BaseAuthentication
-from api.exceptions import NoApiTokenFound, ExpiredToken, InvalidToken
+from ..authentication import BaseAuthentication
+from ..exceptions import NoApiTokenFound, ExpiredToken, InvalidToken
 import jwt
 from config.application import KEY
 from masonite.request import Request

@@ -1,5 +1,5 @@
 from masonite.routes import Get, Post
-from api.controllers import TokenController
+from ..controllers import TokenController
 
 
 def TokenRoutes(url='/token'):

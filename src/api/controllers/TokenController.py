@@ -5,7 +5,7 @@ from masonite.helpers import password as bcrypt_password
 from masonite.helpers.misc import random_string
 from masonite.request import Request
 
-from api.exceptions import NoApiTokenFound
+from ..exceptions import NoApiTokenFound
 from config.application import KEY
 
 

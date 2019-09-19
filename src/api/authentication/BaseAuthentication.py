@@ -1,4 +1,4 @@
-from api.exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
+from ..exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
                             NoApiTokenFound, PermissionScopeDenied,
                             RateLimitReached)
 
