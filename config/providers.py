@@ -36,19 +36,19 @@ PROVIDERS = [
     SessionProvider,
     RouteProvider,
     StatusCodeProvider,
-    WhitenoiseProvider,
+    # WhitenoiseProvider,
     ViewProvider,
 
     # Optional Framework Providers
-    SassProvider,
-    MailProvider,
-    UploadProvider,
-    QueueProvider,
-    CacheProvider,
-    BroadcastProvider,
-    CacheProvider,
+    # SassProvider,
+    # MailProvider,
+    # UploadProvider,
+    # QueueProvider,
+    # CacheProvider,
+    # BroadcastProvider,
+    # CacheProvider,
     CsrfProvider,
-    HelpersProvider,
+    # HelpersProvider,
 
     # Third Party Providers
 
