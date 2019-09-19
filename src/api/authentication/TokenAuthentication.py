@@ -1,6 +1,6 @@
-from api.authentication import BaseAuthentication
+from ..authentication import BaseAuthentication
 from masonite.auth import Sign
-from api.exceptions import NoApiTokenFound, ApiNotAuthenticated
+from ..exceptions import NoApiTokenFound, ApiNotAuthenticated
 from masonite.request import Request
 
 class TokenAuthentication(BaseAuthentication):

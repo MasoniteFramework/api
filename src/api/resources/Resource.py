@@ -3,7 +3,7 @@ import json
 from masonite.request import Request
 from masonite.routes import BaseHttpRoute
 
-from api.exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
+from ..exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
                             NoApiTokenFound, PermissionScopeDenied,
                             RateLimitReached)
 
@@ -16,10 +16,10 @@ class Resource(BaseHttpRoute):
     methods = ['create', 'index', 'show', 'update', 'delete']
     prefix = '/api'
     required_domain = None
-    list_middleware = []
     without = []
 
     def __init__(self, url=None, method_type='GET'):
+        self.list_middleware = []
         self.route_url = url
         self.method_type = method_type
         self.named_route = None
@@ -30,15 +30,15 @@ class Resource(BaseHttpRoute):
     def routes(self):
         routes = []
         if 'create' in self.methods:
-            routes.append(self.__class__(self.route_url, 'POST'))
+            routes.append(self.__class__(self.route_url, 'POST').middleware(*self.list_middleware))
         if 'index' in self.methods:
-            routes.append(self.__class__(self.route_url, 'GET'))
+            routes.append(self.__class__(self.route_url, 'GET').middleware(*self.list_middleware))
         if 'show' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'GET'))
+            routes.append(self.__class__(self.route_url + '/@id', 'GET').middleware(*self.list_middleware))
         if 'update' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'PUT'))
+            routes.append(self.__class__(self.route_url + '/@id', 'PUT').middleware(*self.list_middleware))
         if 'delete' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'DELETE'))
+            routes.append(self.__class__(self.route_url + '/@id', 'DELETE').middleware(*self.list_middleware))
 
         return routes
 
@@ -78,14 +78,6 @@ class Resource(BaseHttpRoute):
             response = self.filter(response)
 
         return response
-
-    def run_middleware(self, middleware_type):
-        """Runs any middleware necessary for this resource
-
-        Arguments:
-            middleware_type {string} -- Either 'before' or 'after'
-        """
-        pass
 
     def load_request(self, request):
         self.request = request

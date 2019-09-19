@@ -1,4 +1,4 @@
-from api.exceptions import PermissionScopeDenied
+from ..exceptions import PermissionScopeDenied
 
 
 class PermissionScopes:
