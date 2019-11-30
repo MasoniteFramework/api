@@ -47,3 +47,14 @@ jobs:
         pip install flake8
     - name: Lint
       run: make lint
+  publish:
+    name: "Publish To PYPI"
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/setup-python@v1
+    - name: Build Package
+      run: |
+        python setup.py sdist upload
+
+
+
