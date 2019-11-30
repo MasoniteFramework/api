@@ -24,7 +24,6 @@ jobs:
       run: |
         make test
     - name: Build Python Package
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       run: | 
         "python setup.py sdist"
     - name: Publish package
