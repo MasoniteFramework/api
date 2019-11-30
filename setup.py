@@ -55,7 +55,7 @@ setup(
     ],
 
     # What does your project relate to?
-    keywords='masonite python framework',
+    keywords='masonite python framework API',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
