@@ -16,7 +16,7 @@ setup(
     url='https://github.com/masoniteframework/api',
 
     # Author details
-    author='The Masonite Community',
+    author='Joe Mancuso',
     author_email='joe@masoniteproject.com',
 
     # Choose your license
