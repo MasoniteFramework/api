@@ -23,9 +23,9 @@ jobs:
         DB_CONNECTION: sqlite
       run: |
         make test
+    - uses: actions/checkout@v1
     - name: Build Python Package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      uses: actions/checkout@v1
       run: | 
         python setup.py sdist
     - name: Publish package
