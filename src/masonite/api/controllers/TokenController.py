@@ -63,11 +63,15 @@ class TokenController:
             payload = {
                 'issued': str(pendulum.now()),
                 'expires': str(pendulum.now().add(minutes=5)),
-                'refresh': str(pendulum.now().add(days=1)),
+                'refresh': str(pendulum.now().add(days=14)),
                 'scopes': token['scopes'],
             }
 
-            return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
+            return {
+                'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8'),
+                'expires_at': payload['expires'],
+                'refresh_expires_at': payload['refresh'],
+            }
 
         return {'error': 'the refresh key on the jwt token has expired'}
 
