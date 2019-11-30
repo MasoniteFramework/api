@@ -1,4 +1,4 @@
-from src.api.resources import Resource
+from src.masonite.api.resources import Resource
 from masonite.routes import RouteGroup
 from masonite.request import Request
 from masonite.testing import TestCase

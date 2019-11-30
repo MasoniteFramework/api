@@ -1,7 +1,7 @@
 """ Web Routes """
 from masonite.routes import Get, Post
 
-from src.api.routes import JWTRoutes, TokenRoutes
+from src.masonite.api.routes import JWTRoutes, TokenRoutes
 from app.resources.UserResource import UserResource
 
 ROUTES = [

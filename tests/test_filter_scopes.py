@@ -1,7 +1,7 @@
-from src.api.resources import Resource
-from src.api.filters import FilterScopes
-from src.api.authentication import PermissionScopes, JWTAuthentication
-from src.api.serializers import JSONSerializer
+from src.masonite.api.resources import Resource
+from src.masonite.api.filters import FilterScopes
+from src.masonite.api.authentication import PermissionScopes, JWTAuthentication
+from src.masonite.api.serializers import JSONSerializer
 # from tests.models.User import User
 from masonite.providers import RouteProvider
 from masonite.testsuite import TestSuite, generate_wsgi
