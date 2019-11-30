@@ -26,8 +26,9 @@ jobs:
     - name: Build Python Package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       with:
-        python-version: 3.5
-      run: "python setup.py sdist"
+        python-version: 3.6
+      run: | 
+        "python setup.py sdist"
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
