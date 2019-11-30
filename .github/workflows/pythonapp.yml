@@ -28,6 +28,7 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: ${{ secrets.pypi_username }}
+        python-version: '3.6'
         password: ${{ secrets.pypi_password }}
   lint:
     runs-on: ubuntu-latest
