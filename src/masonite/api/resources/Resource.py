@@ -4,8 +4,8 @@ from masonite.request import Request
 from masonite.routes import BaseHttpRoute
 
 from ..exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
-                            NoApiTokenFound, PermissionScopeDenied,
-                            RateLimitReached)
+                          NoApiTokenFound, PermissionScopeDenied,
+                          RateLimitReached)
 
 
 class Resource(BaseHttpRoute):
@@ -30,15 +30,20 @@ class Resource(BaseHttpRoute):
     def routes(self):
         routes = []
         if 'create' in self.methods:
-            routes.append(self.__class__(self.route_url, 'POST').middleware(*self.list_middleware))
+            routes.append(self.__class__(self.route_url,
+                                         'POST').middleware(*self.list_middleware))
         if 'index' in self.methods:
-            routes.append(self.__class__(self.route_url, 'GET').middleware(*self.list_middleware))
+            routes.append(self.__class__(self.route_url,
+                                         'GET').middleware(*self.list_middleware))
         if 'show' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'GET').middleware(*self.list_middleware))
+            routes.append(self.__class__(self.route_url + '/@id',
+                                         'GET').middleware(*self.list_middleware))
         if 'update' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'PUT').middleware(*self.list_middleware))
+            routes.append(self.__class__(self.route_url + '/@id',
+                                         'PUT').middleware(*self.list_middleware))
         if 'delete' in self.methods:
-            routes.append(self.__class__(self.route_url + '/@id', 'DELETE').middleware(*self.list_middleware))
+            routes.append(self.__class__(self.route_url + '/@id',
+                                         'DELETE').middleware(*self.list_middleware))
 
         return routes
 

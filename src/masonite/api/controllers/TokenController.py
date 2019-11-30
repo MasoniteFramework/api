@@ -18,35 +18,40 @@ class TokenController:
     __auth__ = None
 
     def __init__(self):
-        if self.__auth__ == None:
+        if self.__auth__ is None:
             from config import auth
-            self.__auth__ = auth.AUTH['model']
+            self.__auth__ = auth.AUTH['guards']['api']['model']
 
     def token(self):
         return {'token': Sign().sign(random_string(10))}
 
     def jwt(self, request: Request, auth: Auth):
         if not request.input('username') or not request.input('password'):
+            request.status(401)
             return {'error': 'missing username or password'}
 
-        if auth.once().login(
+        user = auth.once().login(
             request.input('username'),
             request.input('password'),
-        ):
+        )
+        if user:
+            user.__hidden__ = ['password']
             payload = {
                 'issued': str(pendulum.now()),
                 'expires': str(pendulum.now().add(minutes=1)),
                 'refresh': str(pendulum.now().add(days=1)),
                 'scopes': request.input('scopes'),
+                'user': user.serialize()
             }
-            
+
             return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
 
         return {'error': 'invalid authentication credentials'}
 
     def jwt_refresh(self, request: Request):
         try:
-            token = jwt.decode(self.fetch_token(request), KEY, algorithms=['HS256'])
+            token = jwt.decode(self.fetch_token(request),
+                               KEY, algorithms=['HS256'])
         except jwt.exceptions.DecodeError:
             return {'error': 'invalid JWT token'}
 

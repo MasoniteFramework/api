@@ -1,6 +1,6 @@
 from ..exceptions import (ApiNotAuthenticated, ExpiredToken, InvalidToken,
-                            NoApiTokenFound, PermissionScopeDenied,
-                            RateLimitReached)
+                          NoApiTokenFound, PermissionScopeDenied,
+                          RateLimitReached)
 
 
 class BaseAuthentication:
