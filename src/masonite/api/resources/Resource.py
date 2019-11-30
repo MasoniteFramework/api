@@ -16,6 +16,7 @@ class Resource(BaseHttpRoute):
     methods = ['create', 'index', 'show', 'update', 'delete']
     prefix = '/api'
     required_domain = None
+    guard = 'api'
     without = []
 
     def __init__(self, url=None, method_type='GET'):
@@ -50,6 +51,9 @@ class Resource(BaseHttpRoute):
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
+        from masonite.auth import Auth
+        auth = self.request.app().make(Auth)
+        auth.set(self.guard)
 
         response = None
 

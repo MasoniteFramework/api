@@ -17,6 +17,8 @@ from masonite.providers import (
     CsrfProvider,
 )
 
+from src.masonite.api.providers import ApiProvider
+
 """
 |--------------------------------------------------------------------------
 | Providers List
@@ -45,6 +47,7 @@ PROVIDERS = [
     # HelpersProvider,
 
     # Third Party Providers
+    ApiProvider,
 
     # Application Providers
 
