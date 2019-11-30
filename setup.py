@@ -66,6 +66,7 @@ setup(
         'masonite.api.filters',
         'masonite.api.guards',
         'masonite.api.resources',
+        'masonite.api.providers',
         'masonite.api.routes',
         'masonite.api.serializers',
     ],
