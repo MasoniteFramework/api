@@ -29,16 +29,11 @@ LoadEnvironment()
 """
 
 DATABASES = {
-    'default': os.environ.get('DB_DRIVER'),
+    'default': 'sqlite',
     'sqlite': {
         'driver': 'sqlite',
-        'database': os.environ.get('DB_DATABASE')
+        'database': 'package.db'
     },
-    os.environ.get('DB_DRIVER'): {
-        'driver': os.environ.get('DB_DRIVER'),
-        'database': os.environ.get('DB_DATABASE'),
-        'prefix': ''
-    }
 }
 
 DB = DatabaseManager(DATABASES)
