@@ -26,6 +26,7 @@ jobs:
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
+      run: "python -m setup.py sdist"
       with:
         user: ${{ secrets.pypi_username }}
         python-version: '3.6'
