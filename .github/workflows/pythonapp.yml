@@ -25,8 +25,6 @@ jobs:
         make test
     - name: Build Python Package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      with:
-        python-version: 3.6
       run: | 
         "python setup.py sdist"
     - name: Publish package
