@@ -51,6 +51,8 @@ class Resource(BaseHttpRoute):
     def get_response(self):
         """Gets the response that should be returned from this resource
         """
+
+        # Set the Guard class.
         from masonite.auth import Auth
         auth = self.request.app().make(Auth)
         auth.set(self.guard)
