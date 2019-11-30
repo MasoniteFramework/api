@@ -4,7 +4,6 @@ from src.masonite.api.authentication import PermissionScopes, JWTAuthentication
 from src.masonite.api.serializers import JSONSerializer
 # from tests.models.User import User
 from masonite.providers import RouteProvider
-from masonite.testsuite import TestSuite, generate_wsgi
 from masonite.routes import Route, RouteGroup
 from masonite.request import Request
 from masonite.response import Response
@@ -16,6 +15,7 @@ from app.User import User
 from masonite.testing import TestCase
 from masonite.helpers import password
 
+
 class MockJWTAuthentication(JWTAuthentication):
 
     def fetch_token(self):
@@ -26,6 +26,7 @@ class MockJWTAuthentication(JWTAuthentication):
             'scopes': 'user:read',
         }
         return jwt.encode(payload, KEY, algorithm='HS256')
+
 
 class UserResourceTest(Resource, JSONSerializer, MockJWTAuthentication, PermissionScopes, FilterScopes):
     model = User
@@ -46,6 +47,7 @@ class UserResourceTest(Resource, JSONSerializer, MockJWTAuthentication, Permissi
     def index(self):
         return self.model.all()
 
+
 class TestFilterScopes(TestCase):
 
     transactions = True
@@ -53,7 +55,7 @@ class TestFilterScopes(TestCase):
     def setUp(self):
         super().setUp()
         self.routes(UserResourceTest('/api').routes())
-    
+
     def setUpFactories(self):
         User.create({
             'name': 'Joe',
