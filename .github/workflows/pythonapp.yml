@@ -24,8 +24,10 @@ jobs:
       run: |
         make test
     - name: Build Python Package
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      uses: actions/checkout@v1
       run: | 
-        "python setup.py sdist"
+        python setup.py sdist
     - name: Publish package
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@master
@@ -47,15 +49,3 @@ jobs:
         pip install flake8
     - name: Lint
       run: make lint
-  publish:
-    name: "Publish To PYPI"
-    runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/setup-python@v1
-    - uses: actions/checkout@v1
-    - name: Build Package
-      run: |
-        python setup.py sdist upload
-
-
-
