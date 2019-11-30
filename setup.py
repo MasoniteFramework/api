@@ -6,7 +6,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='3.0.0b1',
+    version='3.0.0b1.post1',
     package_dir={'': 'src'},
 
     description='Masonite API Package',
@@ -59,16 +59,16 @@ setup(
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    packages=find_packages(exclude=[
-        'tests*',
-        'app',
-        'bootstrap',
-        'config',
-        'databases',
-        'resources',
-        'routes',
-        'storage'
-        ]),
+    packages=[
+        'masonite.api',
+        'masonite.api.authentication',
+        'masonite.api.controllers',
+        'masonite.api.filters',
+        'masonite.api.guards',
+        'masonite.api.resources',
+        'masonite.api.routes',
+        'masonite.api.serializers',
+    ],
 
     # List run-time dependencies here.  These will be installed by pip when
     # your project is installed. For an analysis of "install_requires" vs pip's

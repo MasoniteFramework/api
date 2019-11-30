@@ -37,7 +37,7 @@ class TestResource(TestCase):
         })
 
     def test_resource_can_return_response_acting_as_route(self):
-        self.assertTrue(self.json('GET', '/api/1').hasJson('name', 'Joe'))
+        self.assertTrue(self.json('GET', '/api/1').assertIsStatus(200).hasJson('name', 'Joe'))
 
     def test_resource_returns_correct_routes(self):
         routes = ResourceTest('/api').routes()
@@ -46,7 +46,7 @@ class TestResource(TestCase):
 
     def test_resource_middleware_returns_json_from_dictionary(self):
         self.routes(ResourceJsonTest('/api/json').routes())
-        self.assertTrue(self.json('GET', '/api/json/1').hasJson('id', 1))
+        self.assertTrue(self.json('GET', '/api/json/1').assertIsStatus(200).hasJson('id', 1))
 
     def test_route_groups_middleware(self):
         group = RouteGroup([

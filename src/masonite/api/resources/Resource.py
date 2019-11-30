@@ -31,19 +31,19 @@ class Resource(BaseHttpRoute):
         routes = []
         if 'create' in self.methods:
             routes.append(self.__class__(self.route_url,
-                                         'POST').middleware(*self.list_middleware))
+                                         ['POST']).middleware(*self.list_middleware))
         if 'index' in self.methods:
             routes.append(self.__class__(self.route_url,
-                                         'GET').middleware(*self.list_middleware))
+                                         ['GET']).middleware(*self.list_middleware))
         if 'show' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id',
-                                         'GET').middleware(*self.list_middleware))
+                                         ['GET']).middleware(*self.list_middleware))
         if 'update' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id',
-                                         'PUT').middleware(*self.list_middleware))
+                                         ['PUT']).middleware(*self.list_middleware))
         if 'delete' in self.methods:
             routes.append(self.__class__(self.route_url + '/@id',
-                                         'DELETE').middleware(*self.list_middleware))
+                                         ['DELETE']).middleware(*self.list_middleware))
 
         return routes
 
@@ -81,6 +81,10 @@ class Resource(BaseHttpRoute):
         # If the resource needs it's own serializer method
         if hasattr(self, 'filter'):
             response = self.filter(response)
+
+        if response is None:
+            self.request.status(404)
+            return {"message": "Resource Not Found"}
 
         return response
 
