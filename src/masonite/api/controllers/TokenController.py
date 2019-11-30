@@ -46,7 +46,6 @@ class TokenController:
 
             return {
                 'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8'),
-                'refresh_token': payload['refresh'],
                 'expires_at': payload['expires'],
                 'refresh_expires_at': payload['refresh'],
             }
