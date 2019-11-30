@@ -38,13 +38,18 @@ class TokenController:
             user.__hidden__ = ['password']
             payload = {
                 'issued': str(pendulum.now()),
-                'expires': str(pendulum.now().add(minutes=1)),
-                'refresh': str(pendulum.now().add(days=1)),
+                'expires': str(pendulum.now().add(minutes=5)),
+                'refresh': str(pendulum.now().add(days=14)),
                 'scopes': request.input('scopes'),
                 'user': user.serialize()
             }
 
-            return {'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8')}
+            return {
+                'token': bytes(jwt.encode(payload, KEY, algorithm='HS256')).decode('utf-8'),
+                'refresh_token': payload['refresh'],
+                'expires_at': payload['expires'],
+                'refresh_expires_at': payload['refresh'],
+            }
 
         return {'error': 'invalid authentication credentials'}
 
