@@ -19,6 +19,8 @@ jobs:
       run: |
         make init
     - name: Test with pytest
+      env: 
+        DB_CONNECTION=sqlite
       run: |
         make test
   lint:
