@@ -38,12 +38,12 @@ AUTH = {
         'api': {
             'driver': 'jwt',
             'model': User,
-            'drivers': {  # 'cookie', 'jwt'
-                'jwt': {
-                    'reauthentication': True,
-                    'lifetime': '5 minutes'
-                }
-            }
+            # 'drivers': {  # 'cookie', 'jwt'
+            #     'jwt': {
+            #         'reauthentication': True,
+            #         'lifetime': '5 minutes'
+            #     }
+            # }
         },
     }
 }
