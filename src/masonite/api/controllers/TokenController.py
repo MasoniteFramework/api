@@ -18,7 +18,7 @@ class TokenController:
     __auth__ = None
 
     def __init__(self):
-        if self.__auth__ == None:
+        if self.__auth__ is None:
             from config import auth
 
             self.__auth__ = auth.AUTH["model"]

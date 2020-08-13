@@ -16,7 +16,7 @@ class JWTAuthentication(BaseAuthentication):
 
     def get_token(self):
         """Returns the decrypted string as a dictionary. This method needs to be overwritten on each authentication class.
-        
+
         Returns:
             dict -- Should always return a dictionary
         """
