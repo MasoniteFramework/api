@@ -1,17 +1,17 @@
 class FilterScopes:
 
     filter_scopes = {
-        'user:read': ['name', 'email'],
-        'manager': ['name',  'email', 'password']
+        "user:read": ["name", "email"],
+        "manager": ["name", "email", "password"],
     }
 
     def filter(self, response):
 
-        if 'error' in response:
+        if "error" in response:
             return response
 
         token = self.get_token()
-        scopes = token['scopes'].split(',')
+        scopes = token["scopes"].split(",")
 
         filtered_response = {}
 
@@ -21,7 +21,7 @@ class FilterScopes:
                     return self.filter_dict(response, scope)
                 elif isinstance(response, list):
                     return self.filter_list(response, scope)
-                    
+
         return filtered_response
 
     def filter_dict(self, response, scope):
@@ -29,7 +29,7 @@ class FilterScopes:
         for key, value in response.items():
             if key in self.filter_scopes[scope]:
                 filtered_response.update({key: value})
-        
+
         return filtered_response
 
     def filter_list(self, response, scope):
@@ -38,5 +38,5 @@ class FilterScopes:
             for key, value in elem.items():
                 if key in self.filter_scopes[scope]:
                     filtered_response.update({key: value})
-        
+
         return filtered_response

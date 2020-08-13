@@ -3,8 +3,8 @@ from masonite.auth import Sign
 from ..exceptions import NoApiTokenFound, ApiNotAuthenticated
 from masonite.request import Request
 
-class TokenAuthentication(BaseAuthentication):
 
+class TokenAuthentication(BaseAuthentication):
     def authenticate(self, request: Request):
         """Authentication using Signed tokens
 
@@ -23,5 +23,5 @@ class TokenAuthentication(BaseAuthentication):
         Returns:
             dict -- Should always return a dictionary
         """
-        
+
         return Sign().unsign(self.fetch_token())

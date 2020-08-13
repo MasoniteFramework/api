@@ -4,7 +4,6 @@ from orator import Model
 
 
 class JSONSerializer:
-
     def serialize(self, response):
         """Serialize the model into JSON
         """
