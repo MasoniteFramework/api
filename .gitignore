@@ -7,3 +7,6 @@
 venv
 __pycache__
 dist
+
+# local testing
+test.db
